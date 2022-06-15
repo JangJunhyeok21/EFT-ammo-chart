@@ -6,9 +6,11 @@ BNode* BHead = NULL;
 BNode* BTail = NULL;
 
 char CaliberList[22][18] = { "caliber","12/70","20/70","23x75mm","9x18mm","7.62x25mm","9x19mm",".357_Magnum",
-".45_ACP","9x21mm","5.7x28mm","4.6x30mm",".366_TKM","5.45x39mm","5.56x45mm",".300","7.62x39mm","7.62x51mm","7.62x54mm_R",".338_Lapua_Magnum","12.7x55mm","9x39mm" };
+".45_ACP","9x21mm","5.7x28mm","4.6x30mm",".366_TKM","5.45x39mm","5.56x45mm",".300","7.62x39mm","7.62x51mm",
+"7.62x54mm_R",".338_Lapua_Magnum","12.7x55mm","9x39mm" };
 char CaliberList4ball[19][12] = { "caliber","12/70","20/70","23x75mm","9x18mm","7.62x25mm","9x19mm",
-".45_ACP","9x21mm","5.7x28mm","4.6x30mm",".366_TKM","5.45x39mm","5.56x45mm","7.62x39mm","7.62x51mm","7.62x54mm_R","12.7x55mm","9x39mm" };
+".45_ACP","9x21mm","5.7x28mm","4.6x30mm",".366_TKM","5.45x39mm","5.56x45mm","7.62x39mm","7.62x51mm",
+"7.62x54mm_R","12.7x55mm","9x39mm" };
 
 /*	탄약 노드를 연결 리스트에 추가하는 함수	*/
 void AddANode(AMMO _AMMO)
@@ -196,7 +198,6 @@ void DisplayCaliberData(char* caliber)
 		printf("데이터가 없음\n");
 		return;
 	}
-
 	AmmoIndex();
 	while (pCur != NULL)
 	{
@@ -252,14 +253,22 @@ void DeleteAllData()
 	while (aCur != NULL)
 	{
 		aDel = aCur;
-		bDel = bCur;
 		aCur = aCur->pNext;
-		bCur = bCur->pNext;
 		DeleteInfo(&(aDel->ammo));
-		DeleteInfo(&(bDel->blstc));
 		free(aDel);
+	}
+	AHead = ATail = NULL;
+
+	if (BHead == NULL)
+		return;
+
+	while (bCur != NULL)
+	{
+		bDel = bCur;
+		bCur = bCur->pNext;
+		DeleteInfo(&(bDel->blstc));
 		free(bDel);
 	}
 
-	BHead = BTail = AHead = ATail = NULL;
+	BHead = BTail = NULL;
 }
